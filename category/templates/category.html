@@ -1,0 +1,40 @@
+{% extends 'base.html' %} 
+{% load crispy_forms_tags %}
+{% block title%} category {% endblock%} 
+
+{% block content %}
+<div>category</div>
+
+
+{% if categories %}
+<table class="table text-center w-50 m-auto">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      {% for category in categories %}
+      <tr>
+        <th scope="row">{{category.id}}</th>
+        <td scope="row">{{category.name}}</td>
+      </tr>
+      {% endfor %}
+        
+    </tbody>
+  </table>
+{% endif %}
+    
+
+{% if form %}
+<h2 class="text-center">Add Category</h2>
+    <form class="w-50 m-auto" method="post">
+        {% csrf_token %}
+        {{form | crispy}}
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
+{% endif %}
+    
+{% endblock %}

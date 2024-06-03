@@ -1,0 +1,52 @@
+{% extends "base.html" %} 
+{% load crispy_forms_tags %}
+{% block title %} task {% endblock title %} 
+
+{% block content %}
+<div>Task</div>
+
+
+{% if tasks %}
+<div class="row g-2">
+    
+    {% for task in tasks %}
+    <div class="col-3">
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{task.id}}. {{task.title}}</h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">{{task.published}}</h6>
+              <p class="card-text">{{task.description}}</p>
+              <p class="card-text">
+                
+                {% for c in task.category.all %}
+                    <span class="p-1 bg-primary-subtle rounded mr-1">{{c.name}}</span>
+                {% endfor %}
+                    
+              </p>
+             
+             {% if task.completed %}
+             <button class="btn btn-success btn-sm" disabled="disabled">Completed</button>
+                {% else %}
+                <a href="{% url 'edit_task' task.id %}" class="card-link btn btn-primary btn-sm">Edit</a>
+                <a href="{% url 'delete_task' task.id %}" class="card-link btn btn-danger btn-sm">Delete</a>
+             {% endif %}
+                
+            </div>
+          </div>
+    </div>
+    {% endfor %}
+        
+</div>
+{% endif %}
+    
+
+{% if form %}
+<h2 class="text-center">Add Task</h2>
+    <form class="w-50 m-auto" method="post">
+        {% csrf_token %}
+        {{form | crispy}}
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
+{% endif %}
+    
+{% endblock %}
